@@ -1,17 +1,23 @@
 import React from "react"
 
-import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks";
-import { login, logout } from '../reducers/loginSlice'
+//import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks";
+//import { login, logout } from '../reducers/loginSlice'
+
+import useLogin from '../hooks/useLogin'
+
 
 export default function LoginForm() {
 
-    const loginUser = useAppSelector(state => state.login)
-    const dispatch = useAppDispatch()
+    //const loginUser = useAppSelector(state => state.login)
+    //const dispatch = useAppDispatch()
 
-    const onSubmit = (e: React.FormEvent) => {
+    const { login } = useLogin()
+
+    const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("hello")
-        dispatch(login({ username: "test", jwt: "test jwt" }))
+        await login("test", "test")
+        // dispatch(login("test", "test"))
     }
 
     return (
