@@ -7,8 +7,8 @@ interface loginState {
 }
 
 const initialLoginState: loginState = {
-    username: '',
-    jwt: ''
+    username: localStorage.getItem("username") || '',
+    jwt: localStorage.getItem("jwt") || ''
 }
 
 
