@@ -7,6 +7,7 @@ export default function Navbar() {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/login">Login/Logout</Link></li>
                 <li><Link to="/register">Register</Link></li>
+                <li><Link to="/game">New Game</Link></li>
             </ul>
         </nav>
     )

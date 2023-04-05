@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import LoginForm from './pages/LoginForm';
+import Game from './pages/Game';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<div>Home</div>} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/game" element={<Game />} />
           <Route path="*" element={<div>Not Found</div>} />
         </Routes>
       </main>
