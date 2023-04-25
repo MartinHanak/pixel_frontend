@@ -1,4 +1,3 @@
-import useLogin from "../hooks/useLogin"
 import useGames from "../hooks/useGames"
 
 export default function GamesList() {
