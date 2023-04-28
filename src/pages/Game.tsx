@@ -1,6 +1,8 @@
 import { useAppDispatch } from "../hooks/typedStoreHooks"
 
-import { fetchQuestion, fetchSSEQuestion } from "../reducers/gameSlice";
+import { fetchQuestion } from "../reducers/gameSlice";
+import { fetchSSEQuestion } from "../reducers/fetchSSEQuestion";
+import { answerQuestion } from "../reducers/answerQuestion";
 
 export default function Game() {
 
@@ -15,9 +17,9 @@ export default function Game() {
 
             <div>Question</div>
             <div>
-                <button onClick={() => { dispatch(fetchSSEQuestion({ gameId: 26, questionOrder: 1 })) }}>A</button>
-                <button>B</button>
-                <button onClick={() => { dispatch(fetchQuestion({ gameId: 26, questionOrder: 1 })) }}> C</button >
+                <button onClick={() => { dispatch(fetchSSEQuestion({ gameId: 26, questionOrder: 6 })) }}>A</button>
+                <button onClick={() => { dispatch(answerQuestion({ gameId: 26, questionOrder: 6, answer: 'D' })) }}>B</button>
+                <button onClick={() => { dispatch(fetchQuestion({ gameId: 26, questionOrder: 6 })) }}> C</button >
                 <button>D</button>
             </div >
         </>

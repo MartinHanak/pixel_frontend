@@ -2,34 +2,34 @@ import { createAsyncThunk, createSlice, PayloadAction, SerializedError } from '@
 import type { RootState } from '../store/store'
 import { BACKEND_URL } from '../utils/config'
 import fetchWithCredentials from '../utils/fetchWithCredentials'
+import { fetchSSEQuestion } from './fetchSSEQuestion'
+import { answerQuestion } from './answerQuestion'
 
-import {  EventSourcePolyfill } from 'event-source-polyfill';
-
-interface OptionInterface {
+export interface OptionInterface {
     A: string,
     B: string,
     C: string,
     D: string
 }
 
-interface question {
+export interface question {
     intro: string,
     question: string,
     options: OptionInterface
 }
 
-interface gameState {
+export interface gameState {
     gameId: number | null,
+    questionOrder : number | null
     currentQuestion: question | null,
-    nextQuestion: question | null,
     error: SerializedError | null,
     status: string | null
 }
 
 const initialState : gameState  = {
     gameId: null,
+    questionOrder: null,
     currentQuestion: null,
-    nextQuestion: null,
     status: 'idle',
     error: null
 }
@@ -66,6 +66,14 @@ export const gameSlice = createSlice({
                 state.error = action.error;
                 console.log(action.error)
             })
+
+            .addCase(answerQuestion.fulfilled, (state, action) => {
+                console.log(action.payload)
+            })
+
+            .addCase(answerQuestion.rejected, (state, action) => {
+                console.log(action.error)
+            })
     }
 })
 
@@ -87,53 +95,6 @@ async (arg, thunkAPI) => {
 
 // Server sent events version
 
-export const fetchSSEQuestion = createAsyncThunk<question | null, {gameId: number, questionOrder: number},{state:RootState}>('game/questionSSE', async (arg,thunkAPI) => {
-
-    const jwt = thunkAPI.getState().login.jwt;
-
-    let nextQuestion : question | null = null;
-
-    try {
-        const eventSource =  new EventSourcePolyfill(`${BACKEND_URL}/api/gameSSE/${arg.gameId}/${arg.questionOrder}`,{
-            headers: {
-                'Authorization' : `Bearer ${jwt}`
-            }
-        });
-
-        const firstMessagePromise = new Promise((resolve, reject) => {
-            eventSource.onmessage = (e) => {
-                eventSource.close()
-
-                const jsonData = JSON.parse(e.data);
-                if(jsonData.intro && jsonData.question && jsonData.options) {
-                    nextQuestion = {
-                        question : jsonData.question,
-                        intro : jsonData.intro,
-                        options: jsonData.options
-                    }
-                    resolve(jsonData)
-                } else {
-                    reject(new Error('Error while parsing the event source response'))
-                }
-            }
-            eventSource.onerror = () => {
-                eventSource.close()
-                reject(new Error(`Error occurred during the event source.`))
-            }
-        })
-
-        await firstMessagePromise
-        .catch((err:Error) =>{
-            throw new Error(err.message) 
-        });
-
-        
-    } catch(err) {
-        throw new Error('Fetching data with event source failed');
-    }
-
-    return nextQuestion
-})
 
 export const { changeGame } = gameSlice.actions;
 
