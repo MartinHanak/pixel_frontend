@@ -1,3 +1,5 @@
+import { Modal } from "./Modal"
+
 export function NewGame() {
     return (
         <div>
@@ -7,6 +9,10 @@ export function NewGame() {
                 <input type="text" id="theme" />
             </div>
             <button>Start new game</button>
+
+            <Modal>
+                <div>Hello world</div>
+            </Modal>
         </div>
     )
 }
