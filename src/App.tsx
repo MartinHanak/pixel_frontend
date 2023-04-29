@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import LoginForm from './pages/LoginForm';
 import Game from './pages/Game';
 import GamesList from './pages/GamesList';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
 
       <main>
         <Routes>
-          <Route path="/" element={<div>Home</div>} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/game" element={<Game />} />
           <Route path="/games" element={<GamesList />} />
