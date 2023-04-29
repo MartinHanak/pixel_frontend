@@ -4,6 +4,7 @@ import { BACKEND_URL } from '../utils/config'
 import fetchWithCredentials from '../utils/fetchWithCredentials'
 import { fetchSSEQuestion } from './fetchSSEQuestion'
 import { answerQuestion } from './answerQuestion'
+import { initializeGame } from './initializeGame'
 
 export interface OptionInterface {
     A: string,
@@ -45,6 +46,13 @@ export const gameSlice = createSlice({
     },
     extraReducers:  (builder) => {
         builder 
+            .addCase(initializeGame.fulfilled, (state, action) => {
+                console.log(action.payload)
+            })
+            .addCase(initializeGame.rejected, (state, action) => {
+                console.log(action.error)
+            })
+
             .addCase(fetchSSEQuestion.pending, (state, action) => {
                 if (state.status === 'idle') {
                     state.status = 'pending'
@@ -69,6 +77,9 @@ export const gameSlice = createSlice({
 
             .addCase(answerQuestion.fulfilled, (state, action) => {
                 console.log(action.payload)
+                if(action.payload.correctlyAnswered) {
+                    state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
+                }
             })
 
             .addCase(answerQuestion.rejected, (state, action) => {

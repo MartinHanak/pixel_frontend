@@ -5,7 +5,6 @@ import type { RootState } from '../store/store'
 
 import { BACKEND_URL } from '../utils/config'
 import fetchWithCredentials from "../utils/fetchWithCredentials";
-import { formatWithOptions } from "util";
 
 
 export const fetchSSEQuestion = createAsyncThunk<question | null, {gameId: number, questionOrder: number},{state:RootState}>('game/questionSSE', async (arg,thunkAPI) => {
