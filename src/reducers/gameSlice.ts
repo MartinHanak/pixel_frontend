@@ -5,6 +5,7 @@ import fetchWithCredentials from '../utils/fetchWithCredentials'
 import { fetchSSEQuestion } from './fetchSSEQuestion'
 import { answerQuestion } from './answerQuestion'
 import { initializeGame } from './initializeGame'
+import { createGame } from './createGame'
 
 export interface OptionInterface {
     A: string,
@@ -24,7 +25,9 @@ export interface gameState {
     questionOrder : number | null
     currentQuestion: question | null,
     error: SerializedError | null,
-    status: string | null
+    status: string | null,
+    gameover: boolean,
+    win: boolean
 }
 
 const initialState : gameState  = {
@@ -32,7 +35,9 @@ const initialState : gameState  = {
     questionOrder: null,
     currentQuestion: null,
     status: 'idle',
-    error: null
+    error: null,
+    gameover: false,
+    win: false
 }
 
 
@@ -42,15 +47,31 @@ export const gameSlice = createSlice({
     reducers: {
         changeGame: (state, action: PayloadAction<number>) => {
             state.gameId = action.payload;
+        },
+        resetGameState: () => {
+           return {...initialState};
         }
     },
     extraReducers:  (builder) => {
         builder 
+            .addCase(createGame.fulfilled, (state, action) => {
+                state.gameId = action.payload.gameId;
+                state.questionOrder = 1;
+                state.status = 'idle';
+            })
+            .addCase(createGame.rejected, (state, action) => {
+                console.log(action.error)
+                state.error = action.error
+            })
+
             .addCase(initializeGame.fulfilled, (state, action) => {
                 console.log(action.payload)
+                state.gameId = action.payload.gameId;
+                state.questionOrder = action.payload.questionOrder;
             })
             .addCase(initializeGame.rejected, (state, action) => {
                 console.log(action.error)
+                state.error = action.error
             })
 
             .addCase(fetchSSEQuestion.pending, (state, action) => {
@@ -79,11 +100,14 @@ export const gameSlice = createSlice({
                 console.log(action.payload)
                 if(action.payload.correctlyAnswered) {
                     state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
+                } else {
+                    state.gameover = true;
                 }
             })
 
             .addCase(answerQuestion.rejected, (state, action) => {
                 console.log(action.error)
+                state.error = action.error
             })
     }
 })
@@ -107,7 +131,7 @@ async (arg, thunkAPI) => {
 // Server sent events version
 
 
-export const { changeGame } = gameSlice.actions;
+export const { changeGame, resetGameState } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.game; 
 
