@@ -8,6 +8,9 @@ import { initializeGame } from "../reducers/initializeGame";
 import { useEffect, useRef, useState } from "react";
 import { RootState } from "../store/store";
 import { GameNotification } from "../components/GameNotification";
+import { help5050 } from "../reducers/help5050";
+import { helpAudience } from "../reducers/helpAudience";
+import { Helpline } from "../components/Helpline";
 
 export default function Game() {
 
@@ -18,11 +21,13 @@ export default function Game() {
     const questionOrder = useAppSelector((state: RootState) => state.game.questionOrder);
     const question = useAppSelector((state: RootState) => state.game.currentQuestion);
     const error = useAppSelector((state: RootState) => state.game.error);
+    const numberOfQuestions = useAppSelector((state: RootState) => state.game.numberOfQuestions);
 
     const [selectedOption, setSelectedOption] = useState<'A' | 'B' | 'C' | 'D' | null>(null)
     const [correctAnswer, setCorrectAnswer] = useState<'A' | 'B' | 'C' | 'D' | null>(null)
 
     const [showNext, setShowNext] = useState(false);
+    const [showHelpline, setShowHelpline] = useState(false);
 
     const firstRequestSent = useRef(false);
 
@@ -56,6 +61,14 @@ export default function Game() {
         }
     }
 
+    const handleHelp5050 = () => {
+        dispatch(help5050())
+    }
+
+    const handleHelpAudience = () => {
+        dispatch(helpAudience())
+    }
+
     useEffect(() => {
         if (!gameId || !questionOrder) {
             // initialize gameId or questionOrder
@@ -76,6 +89,16 @@ export default function Game() {
 
     return (
         <>
+            <div>Question {questionOrder}/{numberOfQuestions}</div>
+
+            <div>
+                <button onClick={handleHelpAudience}>Audience</button>
+                <button onClick={handleHelp5050}>50:50</button>
+                <button onClick={() => setShowHelpline(true)}>Helpline</button>
+            </div>
+
+            {showHelpline && <Helpline />}
+
             <div>{question?.intro}</div>
 
             <div>{question?.question}</div>

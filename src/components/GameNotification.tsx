@@ -39,7 +39,7 @@ export function GameNotification() {
             setDisplayText("Game Over");
         } else if (error) {
             setShowModal(true)
-            setDisplayText(error.message ? error.message : "Error occured while generating the next question. Try generating a game with a less specific theme.");
+            setDisplayText(error.message ? error.message : "Error occurred while generating the next question. Try generating a game with a less specific theme.");
         }
 
     }, [error, gameover, win])

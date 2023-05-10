@@ -3,7 +3,7 @@ import { RootState } from "../store/store";
 import fetchWithCredentials from "../utils/fetchWithCredentials";
 import { BACKEND_URL } from "../utils/config";
 
-export  const initializeGame  = createAsyncThunk<{gameId: number, questionOrder: number}, {gameId: number } | undefined, {state:RootState}>('game/initialize', async (arg, thunkAPI) => {
+export  const initializeGame  = createAsyncThunk<{gameId: number, questionOrder: number, numberOfQuestions: number}, {gameId: number } | undefined, {state:RootState}>('game/initialize', async (arg, thunkAPI) => {
 
     const jwt = thunkAPI.getState().login.jwt;
 
@@ -28,16 +28,18 @@ export  const initializeGame  = createAsyncThunk<{gameId: number, questionOrder:
 
         const jsonData = await response.json();
  
-        if(!(jsonData.gameId && jsonData.questionOrder) || 
+        if(!(jsonData.gameId && jsonData.questionOrder && jsonData.numberOfQuestions) || 
             isNaN(Number(jsonData.gameId))  || 
-            isNaN(Number(jsonData.questionOrder))) {
+            isNaN(Number(jsonData.questionOrder)) ||
+            isNaN(Number(jsonData.numberOfQuestions))) {
 
             throw new Error(`Response could not be parsed while initializing the game.`)
         }
 
         return {
             gameId: Number(jsonData.gameId),
-            questionOrder: Number(jsonData.questionOrder)
+            questionOrder: Number(jsonData.questionOrder),
+            numberOfQuestions: Number(jsonData.numberOfQuestions)
         }
 
     } catch(err) {

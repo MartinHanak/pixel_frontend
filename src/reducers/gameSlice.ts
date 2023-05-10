@@ -6,6 +6,8 @@ import { fetchSSEQuestion } from './fetchSSEQuestion'
 import { answerQuestion } from './answerQuestion'
 import { initializeGame } from './initializeGame'
 import { createGame } from './createGame'
+import { help5050 } from './help5050'
+import { helpAudience } from './helpAudience'
 
 export interface OptionInterface {
     A: string,
@@ -22,7 +24,8 @@ export interface question {
 
 export interface gameState {
     gameId: number | null,
-    questionOrder : number | null
+    numberOfQuestions: number | null,
+    questionOrder : number | null,
     currentQuestion: question | null,
     error: SerializedError | null,
     status: string | null,
@@ -33,6 +36,7 @@ export interface gameState {
 const initialState : gameState  = {
     gameId: null,
     questionOrder: null,
+    numberOfQuestions: null,
     currentQuestion: null,
     status: 'idle',
     error: null,
@@ -57,6 +61,7 @@ export const gameSlice = createSlice({
             .addCase(createGame.fulfilled, (state, action) => {
                 state.gameId = action.payload.gameId;
                 state.questionOrder = 1;
+                state.numberOfQuestions = 15;
                 state.status = 'idle';
             })
             .addCase(createGame.rejected, (state, action) => {
@@ -68,6 +73,7 @@ export const gameSlice = createSlice({
                 console.log(action.payload)
                 state.gameId = action.payload.gameId;
                 state.questionOrder = action.payload.questionOrder;
+                state.numberOfQuestions = action.payload.numberOfQuestions;
             })
             .addCase(initializeGame.rejected, (state, action) => {
                 console.log(action.error)
@@ -108,6 +114,22 @@ export const gameSlice = createSlice({
             .addCase(answerQuestion.rejected, (state, action) => {
                 console.log(action.error)
                 state.error = action.error
+            })
+
+            .addCase(help5050.rejected, (state, action) =>{
+                console.log(action.error)
+                state.error = action.error
+            } )
+            .addCase(help5050.fulfilled, (state, action) => {
+                console.log(action.payload.options)
+            }) 
+
+            .addCase(helpAudience.rejected , (state, action) => {
+                console.log(action.error)
+                state.error = action.error
+            })
+            .addCase(helpAudience.fulfilled, (state,action) => {
+                console.log(action.payload.votes)
             })
     }
 })
