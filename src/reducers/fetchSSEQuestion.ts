@@ -61,7 +61,7 @@ export const fetchSSEQuestion = createAsyncThunk<question | null, {gameId: numbe
         )
         
     } catch(err) {
-        throw new Error('Fetching data with event source failed');
+        console.log(err)
     }
 
     return nextQuestion

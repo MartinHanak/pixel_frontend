@@ -8,6 +8,9 @@ import { initializeGame } from './initializeGame'
 import { createGame } from './createGame'
 import { help5050 } from './help5050'
 import { helpAudience } from './helpAudience'
+import { fetchHelpline } from './fetchHelpline'
+import { message } from '../components/Helpline'
+import { act } from 'react-dom/test-utils'
 
 export interface OptionInterface {
     A: string,
@@ -30,7 +33,8 @@ export interface gameState {
     error: SerializedError | null,
     status: string | null,
     gameover: boolean,
-    win: boolean
+    win: boolean,
+    oldHelplineMessages: message[] | null
 }
 
 const initialState : gameState  = {
@@ -41,7 +45,8 @@ const initialState : gameState  = {
     status: 'idle',
     error: null,
     gameover: false,
-    win: false
+    win: false,
+    oldHelplineMessages: null
 }
 
 
@@ -54,6 +59,16 @@ export const gameSlice = createSlice({
         },
         resetGameState: () => {
            return {...initialState};
+        },
+        addHelplineMessage: (state, action: PayloadAction<message>) => {
+            if(state.oldHelplineMessages) {
+                state.oldHelplineMessages = [...state.oldHelplineMessages, action.payload]
+            } else {
+                state.oldHelplineMessages = [action.payload]
+            }
+        },
+        resetHelplineMessages: (state) => {
+            state.oldHelplineMessages = null;
         }
     },
     extraReducers:  (builder) => {
@@ -131,6 +146,19 @@ export const gameSlice = createSlice({
             .addCase(helpAudience.fulfilled, (state,action) => {
                 console.log(action.payload.votes)
             })
+
+            .addCase(fetchHelpline.rejected, (state, action) => {
+                console.log(action.error)
+                state.error = action.error
+            })
+            .addCase(fetchHelpline.fulfilled, (state, action) => {
+                console.log(action.payload.content)
+                if(state.oldHelplineMessages) {
+                    state.oldHelplineMessages = [...state.oldHelplineMessages, action.payload]
+                } else {
+                    state.oldHelplineMessages = [action.payload]
+                }
+            })
     }
 })
 
@@ -153,7 +181,7 @@ async (arg, thunkAPI) => {
 // Server sent events version
 
 
-export const { changeGame, resetGameState } = gameSlice.actions;
+export const { changeGame, resetGameState, addHelplineMessage, resetHelplineMessages } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.game; 
 

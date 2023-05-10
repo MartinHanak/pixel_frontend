@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks";
 
 import { createGame } from "../reducers/createGame";
 import { useNavigate } from "react-router-dom";
+import { resetGameState } from "../reducers/gameSlice";
 
 export function NewGame() {
 
@@ -21,6 +22,9 @@ export function NewGame() {
 
         // check if logged in
         if (username && username !== '') {
+            // reset old game 
+            dispatch(resetGameState())
+
             // if yes, create new game and redirect
             dispatch(createGame({ theme: theme }))
                 .unwrap()

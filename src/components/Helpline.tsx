@@ -4,9 +4,13 @@ import { useState } from "react";
 
 import Yoda from '../assets/images/Yoda.png'
 import Pikachu from '../assets/images/Pikachu.png'
+import Gollum from '../assets/images/Gollum.png'
+import Trump from '../assets/images/Trump.jpg'
+
 import { CharacterIcon } from "./CharacterIcon";
 import { CharacterList } from "./CharacterList";
 import { CharacterDetails } from "./CharacterDetails";
+import { resetHelplineMessages } from "../reducers/gameSlice";
 
 export interface message {
     role: "assistant" | "user" | "system",
@@ -29,6 +33,16 @@ const availableCharacter: character[] = [
         name: 'Pikachu',
         description: 'Pika, pika',
         imageSrc: Pikachu
+    },
+    {
+        name: 'Gollum',
+        description: 'My precious',
+        imageSrc: Gollum
+    },
+    {
+        name: 'Trump',
+        description: 'I\'m the best',
+        imageSrc: Trump
     }
 ]
 
@@ -39,8 +53,14 @@ export function Helpline() {
     const gameId = useAppSelector((state: RootState) => state.game.gameId);
     const questionOrder = useAppSelector((state: RootState) => state.game.questionOrder);
 
+    const oldMessages = useAppSelector((state: RootState) => state.game.oldHelplineMessages)
+
     const [selectedCharacter, setSelectedCharacter] = useState<character | null>(null);
-    const [oldMessages, setOldMessages] = useState<message[] | null>(null)
+
+    const cancelSelection = () => {
+        dispatch(resetHelplineMessages())
+        setSelectedCharacter(null)
+    }
 
 
     return (
@@ -55,7 +75,7 @@ export function Helpline() {
                 <CharacterDetails
                     selectedCharacter={selectedCharacter}
                     oldMessages={oldMessages}
-                    cancelSelection={() => setSelectedCharacter(null)}
+                    cancelSelection={cancelSelection}
                 />
             }
         </div >

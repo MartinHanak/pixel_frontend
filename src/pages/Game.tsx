@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks"
 
-import { fetchQuestion } from "../reducers/gameSlice";
+import { fetchQuestion, resetHelplineMessages } from "../reducers/gameSlice";
 import { fetchSSEQuestion } from "../reducers/fetchSSEQuestion";
 import { answerQuestion } from "../reducers/answerQuestion";
 
@@ -49,6 +49,10 @@ export default function Game() {
     }
 
     const handleNextQuestion = () => {
+        // reset helpline
+        dispatch(resetHelplineMessages())
+        setShowHelpline(false)
+
         console.log("next question")
         // reset
         setShowNext(false);
