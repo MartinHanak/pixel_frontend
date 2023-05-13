@@ -84,6 +84,10 @@ export const gameSlice = createSlice({
                 state.error = action.error
             })
 
+            .addCase(createGame.pending, (state, action) => {
+                state.status= 'pending';
+            })
+
             .addCase(initializeGame.fulfilled, (state, action) => {
                 console.log(action.payload)
                 state.gameId = action.payload.gameId;

@@ -11,6 +11,9 @@ import { GameNotification } from "../components/GameNotification";
 import { help5050 } from "../reducers/help5050";
 import { helpAudience } from "../reducers/helpAudience";
 import { Helpline } from "../components/Helpline";
+import { Placeholder } from "../components/Placeholder";
+import { Button } from "../components/Button";
+import { OptionSpan } from "../components/OptionSpan";
 
 export default function Game() {
 
@@ -39,7 +42,7 @@ export default function Game() {
                     setCorrectAnswer(res.correctAnswer)
 
                     if (res.correctlyAnswered) {
-                        // modify answer button to next question button
+                        // modify answer Button to next question Button
                         setShowNext(true)
                     } else {
                         console.log("game over")
@@ -96,26 +99,54 @@ export default function Game() {
             <div>Question {questionOrder}/{numberOfQuestions}</div>
 
             <div>
-                <button onClick={handleHelpAudience}>Audience</button>
-                <button onClick={handleHelp5050}>50:50</button>
-                <button onClick={() => setShowHelpline(true)}>Helpline</button>
+                <Button onClick={handleHelpAudience}>Audience</Button>
+                <Button onClick={handleHelp5050}>50:50</Button>
+                <Button onClick={() => setShowHelpline(true)}>Helpline</Button>
             </div>
 
             {showHelpline && <Helpline />}
 
             <div>{question?.intro}</div>
 
-            <div>{question?.question}</div>
+            <div>{question ? question.question : <Placeholder />}</div>
+
             <div>
-                <button onClick={() => { setSelectedOption('A') }}>A. {question?.options.A}</button>
-                <button onClick={() => { setSelectedOption('B') }}>B. {question?.options.B}</button>
-                <button onClick={() => { setSelectedOption('C') }}>C. {question?.options.C}</button>
-                <button onClick={() => { setSelectedOption('D') }}>D. {question?.options.D}</button>
+                {question ?
+                    <>
+                        <Button onClick={() => { setSelectedOption('A') }}>
+                            <OptionSpan>A.</OptionSpan> {question?.options.A}
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('B') }}>
+                            <OptionSpan>B.</OptionSpan> {question?.options.B}
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('C') }}>
+                            <OptionSpan>C.</OptionSpan> {question?.options.C}
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('D') }}>
+                            <OptionSpan>D.</OptionSpan> {question?.options.D}
+                        </Button>
+                    </>
+                    :
+                    <>
+                        <Button onClick={() => { setSelectedOption('A') }}>
+                            <OptionSpan>A.</OptionSpan> <Placeholder />
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('B') }}>
+                            <OptionSpan>B.</OptionSpan> <Placeholder />
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('C') }}>
+                            <OptionSpan>C.</OptionSpan> <Placeholder />
+                        </Button>
+                        <Button onClick={() => { setSelectedOption('D') }}>
+                            <OptionSpan>D.</OptionSpan> <Placeholder />
+                        </Button>
+                    </>
+                }
             </div >
 
-            <button onClick={handleAnswer}>Answer</button>
+            <Button onClick={handleAnswer}>Answer</Button>
 
-            {showNext && <button onClick={handleNextQuestion}>Next Question</button>}
+            {showNext && <Button onClick={handleNextQuestion}>Next Question</Button>}
 
             <GameNotification />
 
