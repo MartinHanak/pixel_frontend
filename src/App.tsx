@@ -14,7 +14,7 @@ function App() {
         <Navbar />
       </header>
 
-      <main>
+      <main className='max-w-screen-lg mx-auto w-full'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />

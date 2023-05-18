@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks"
 
-import { fetchQuestion, resetHelplineMessages } from "../reducers/gameSlice";
+import { fetchQuestion, increaseQuestionOrder, reset5050, resetAudience, resetHelplineMessages } from "../reducers/gameSlice";
 import { fetchSSEQuestion } from "../reducers/fetchSSEQuestion";
 import { answerQuestion } from "../reducers/answerQuestion";
 
@@ -14,6 +14,10 @@ import { Helpline } from "../components/Helpline";
 import { Placeholder } from "../components/Placeholder";
 import { Button } from "../components/Button";
 import { OptionSpan } from "../components/OptionSpan";
+import { QuestionContainer } from "../components/QuestionContainer";
+import { Intro } from "../components/Intro";
+import { Audience } from "../components/Audience";
+import { GameProgress } from "../components/GameProgress";
 
 export default function Game() {
 
@@ -28,9 +32,17 @@ export default function Game() {
 
     const [selectedOption, setSelectedOption] = useState<'A' | 'B' | 'C' | 'D' | null>(null)
     const [correctAnswer, setCorrectAnswer] = useState<'A' | 'B' | 'C' | 'D' | null>(null)
+    //const [disabledOptions, setDisabledOptions] = useState<Array<'A' | 'B' | 'C' | 'D'> | null>(null)
+
+    const disabledOptions = useAppSelector((state: RootState) => state.game.eliminatedOptions5050)
+
+    const [displayedText, setDisplayedText] = useState('');
 
     const [showNext, setShowNext] = useState(false);
     const [showHelpline, setShowHelpline] = useState(false);
+    const [showAudience, setShowAudience] = useState(false);
+
+    const audienceVotes = useAppSelector((state: RootState) => state.game.audienceVotes)
 
     const firstRequestSent = useRef(false);
 
@@ -55,6 +67,10 @@ export default function Game() {
         // reset helpline
         dispatch(resetHelplineMessages())
         setShowHelpline(false)
+        // reset 5050
+        dispatch(reset5050())
+        // reset audience
+        dispatch(resetAudience())
 
         console.log("next question")
         // reset
@@ -62,11 +78,18 @@ export default function Game() {
         setCorrectAnswer(null);
         setSelectedOption(null);
 
-        // question order already increased with successful answer
-        if (gameId && questionOrder) {
-            dispatch(fetchSSEQuestion({ gameId, questionOrder }))
-        }
+        // increasing questionOrder triggers fetching the new question
+        dispatch(increaseQuestionOrder())
     }
+
+
+    useEffect(() => {
+        // request next question after questionOrder update
+        if (gameId && questionOrder && questionOrder > 1) {
+            dispatch(fetchSSEQuestion({ gameId, questionOrder: questionOrder }))
+        }
+    }, [questionOrder])
+
 
     const handleHelp5050 = () => {
         dispatch(help5050())
@@ -74,6 +97,11 @@ export default function Game() {
 
     const handleHelpAudience = () => {
         dispatch(helpAudience())
+        setShowAudience(true);
+    }
+
+    const handleHelpline = () => {
+        setShowHelpline(true)
     }
 
     useEffect(() => {
@@ -95,53 +123,50 @@ export default function Game() {
     }, [gameId])
 
     return (
-        <>
-            <div>Question {questionOrder}/{numberOfQuestions}</div>
+        <div className="relative w-full">
+            {questionOrder && <GameProgress currentQuestion={questionOrder} handleAudience={handleHelpAudience} handle5050={handleHelp5050} handleHelpline={handleHelpline} />}
 
-            <div>
-                <Button onClick={handleHelpAudience}>Audience</Button>
-                <Button onClick={handleHelp5050}>50:50</Button>
-                <Button onClick={() => setShowHelpline(true)}>Helpline</Button>
-            </div>
+            {audienceVotes && <Audience close={() => { dispatch(resetAudience()) }} votes={audienceVotes} />}
 
-            {showHelpline && <Helpline />}
+            {showHelpline && <Helpline close={() => { setShowHelpline(false) }} />}
 
-            <div>{question?.intro}</div>
+            {null && question?.intro && <Intro text={question.intro}></Intro>}
 
-            <div>{question ? question.question : <Placeholder />}</div>
+            <QuestionContainer>{question ? question.question : <Placeholder />}</QuestionContainer>
 
-            <div>
-                {question ?
-                    <>
-                        <Button onClick={() => { setSelectedOption('A') }}>
-                            <OptionSpan>A.</OptionSpan> {question?.options.A}
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('B') }}>
-                            <OptionSpan>B.</OptionSpan> {question?.options.B}
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('C') }}>
-                            <OptionSpan>C.</OptionSpan> {question?.options.C}
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('D') }}>
-                            <OptionSpan>D.</OptionSpan> {question?.options.D}
-                        </Button>
-                    </>
-                    :
-                    <>
-                        <Button onClick={() => { setSelectedOption('A') }}>
-                            <OptionSpan>A.</OptionSpan> <Placeholder />
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('B') }}>
-                            <OptionSpan>B.</OptionSpan> <Placeholder />
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('C') }}>
-                            <OptionSpan>C.</OptionSpan> <Placeholder />
-                        </Button>
-                        <Button onClick={() => { setSelectedOption('D') }}>
-                            <OptionSpan>D.</OptionSpan> <Placeholder />
-                        </Button>
-                    </>
-                }
+            <div className="flex flex-wrap justify-between align-center" >
+
+
+                <Button onClick={() => { setSelectedOption('A') }}
+                    disabled={disabledOptions?.includes('A')}
+                    selected={selectedOption?.includes('A')}>
+                    <div className="flex items-center justify-start">
+                        <OptionSpan>A.</OptionSpan> {question ? question.options.A : <Placeholder />}
+                    </div>
+                </Button>
+                <Button onClick={() => { setSelectedOption('B') }}
+                    disabled={disabledOptions?.includes('B')}
+                    selected={selectedOption?.includes('B')}>
+                    <div className="flex items-center justify-start">
+                        <OptionSpan>B.</OptionSpan> {question ? question.options.B : <Placeholder />}
+                    </div>
+                </Button>
+                <Button onClick={() => { setSelectedOption('C') }}
+                    disabled={disabledOptions?.includes('C')}
+                    selected={selectedOption?.includes('C')}>
+                    <div className="flex items-center justify-start">
+                        <OptionSpan>C.</OptionSpan> {question ? question.options.C : <Placeholder />}
+                    </div>
+                </Button>
+                <Button onClick={() => { setSelectedOption('D') }}
+                    disabled={disabledOptions?.includes('D')}
+                    selected={selectedOption?.includes('D')}>
+                    <div className="flex items-center justify-start">
+                        <OptionSpan>D.</OptionSpan> {question ? question.options.D : <Placeholder />}
+                    </div>
+                </Button>
+
+
             </div >
 
             <Button onClick={handleAnswer}>Answer</Button>
@@ -150,6 +175,6 @@ export default function Game() {
 
             <GameNotification />
 
-        </>
+        </div>
     )
 }

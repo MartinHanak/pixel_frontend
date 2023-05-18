@@ -11,6 +11,7 @@ import { helpAudience } from './helpAudience'
 import { fetchHelpline } from './fetchHelpline'
 import { message } from '../components/Helpline'
 import { act } from 'react-dom/test-utils'
+import { answerType } from './help5050'
 
 export interface OptionInterface {
     A: string,
@@ -34,7 +35,12 @@ export interface gameState {
     status: string | null,
     gameover: boolean,
     win: boolean,
-    oldHelplineMessages: message[] | null
+    oldHelplineMessages: message[] | null,
+    eliminatedOptions5050: answerType[] | null,
+    audienceVotes: {[key: string]: number} | null,
+    usedAudience: boolean,
+    used5050: boolean,
+    usedHelpline: boolean
 }
 
 const initialState : gameState  = {
@@ -46,7 +52,12 @@ const initialState : gameState  = {
     error: null,
     gameover: false,
     win: false,
-    oldHelplineMessages: null
+    oldHelplineMessages: null,
+    eliminatedOptions5050: null,
+    audienceVotes: null,
+    used5050: false,
+    usedAudience: false,
+    usedHelpline: false
 }
 
 
@@ -56,6 +67,13 @@ export const gameSlice = createSlice({
     reducers: {
         changeGame: (state, action: PayloadAction<number>) => {
             state.gameId = action.payload;
+        },
+        increaseQuestionOrder: (state) => {
+            if(state.questionOrder) {
+                state.questionOrder = state.questionOrder + 1
+            } else {
+                state.questionOrder = 1
+            }
         },
         resetGameState: () => {
            return {...initialState};
@@ -69,6 +87,12 @@ export const gameSlice = createSlice({
         },
         resetHelplineMessages: (state) => {
             state.oldHelplineMessages = null;
+        },
+        reset5050: (state) => {
+            state.eliminatedOptions5050 = null
+        },
+        resetAudience: (state) => {
+            state.audienceVotes = null
         }
     },
     extraReducers:  (builder) => {
@@ -100,6 +124,8 @@ export const gameSlice = createSlice({
             })
 
             .addCase(fetchSSEQuestion.pending, (state, action) => {
+                state.currentQuestion = null;
+                
                 if (state.status === 'idle') {
                     state.status = 'pending'
                 }
@@ -124,7 +150,8 @@ export const gameSlice = createSlice({
             .addCase(answerQuestion.fulfilled, (state, action) => {
                 console.log(action.payload)
                 if(action.payload.correctlyAnswered) {
-                    state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
+                    // increased by a separate action
+                    //state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
                 } else {
                     state.gameover = true;
                 }
@@ -140,7 +167,18 @@ export const gameSlice = createSlice({
                 state.error = action.error
             } )
             .addCase(help5050.fulfilled, (state, action) => {
-                console.log(action.payload.options)
+                state.used5050 = true;
+
+                const options = ['A', 'B', 'C', 'D'] as answerType[];
+                const eliminatedOptions = [] as answerType[];
+
+                for(const option of options) {
+                    if(!action.payload.options.includes(option)) {
+                        eliminatedOptions.push(option)
+                    }
+                }
+                
+                state.eliminatedOptions5050 = eliminatedOptions;
             }) 
 
             .addCase(helpAudience.rejected , (state, action) => {
@@ -148,14 +186,22 @@ export const gameSlice = createSlice({
                 state.error = action.error
             })
             .addCase(helpAudience.fulfilled, (state,action) => {
+                state.usedAudience = true;
+                state.audienceVotes = action.payload.votes
                 console.log(action.payload.votes)
             })
 
+            .addCase(fetchHelpline.pending, (state,action) => {
+                state.status= "pending";
+            })
             .addCase(fetchHelpline.rejected, (state, action) => {
+                state.status = "idle";
                 console.log(action.error)
                 state.error = action.error
             })
             .addCase(fetchHelpline.fulfilled, (state, action) => {
+                state.usedHelpline = true;
+                state.status = "idle";
                 console.log(action.payload.content)
                 if(state.oldHelplineMessages) {
                     state.oldHelplineMessages = [...state.oldHelplineMessages, action.payload]
@@ -185,7 +231,7 @@ async (arg, thunkAPI) => {
 // Server sent events version
 
 
-export const { changeGame, resetGameState, addHelplineMessage, resetHelplineMessages } = gameSlice.actions;
+export const { changeGame, resetGameState, addHelplineMessage, resetHelplineMessages, reset5050, resetAudience, increaseQuestionOrder } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.game; 
 

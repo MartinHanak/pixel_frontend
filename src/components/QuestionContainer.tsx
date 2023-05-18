@@ -1,18 +1,16 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import { convertRemToPixels } from "../utils/convert";
 
-interface Button {
+interface QuestionContainer {
     children: React.ReactNode,
-    onClick: (...args: any[]) => void,
-    disabled?: boolean,
-    selected?: boolean
 }
 
-export function Button({ children, onClick, disabled = false, selected = false }: Button) {
 
-    const buttonRef = useRef<HTMLButtonElement | null>(null)
+export function QuestionContainer({ children }: QuestionContainer) {
 
-    const [buttonHeight, setButtonHeight] = useState(0); // in px
+    const containerRef = useRef<HTMLDivElement | null>(null)
+
+    const [containerHeight, setContainerHeight] = useState(0); // in px
     const [triangleWidth, setTriangleWidth] = useState(1) // in rems
     const [borderWidth, setBorderWidth] = useState(5) // in px
 
@@ -20,9 +18,9 @@ export function Button({ children, onClick, disabled = false, selected = false }
     const [topOffset, setTopOffset] = useState(1) // in px
 
     useLayoutEffect(() => {
-        if (buttonRef.current) {
-            const { height } = buttonRef.current.getBoundingClientRect()
-            setButtonHeight(height)
+        if (containerRef.current) {
+            const { height } = containerRef.current.getBoundingClientRect()
+            setContainerHeight(height)
 
             const slope = getSlope(triangleWidth, height);
 
@@ -41,18 +39,17 @@ export function Button({ children, onClick, disabled = false, selected = false }
             paddingBottom: `${borderWidth}px`,
             paddingLeft: `calc(${triangleWidth}rem + ${middleOffset}px)`,
             paddingRight: `calc(${triangleWidth}rem + ${middleOffset}px)`,
-            clipPath: `polygon(0 50%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 0, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 0, 100% 50%, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 100%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 100%)`,
-            opacity: disabled ? '0' : '1'
-        }} className={`${selected ? 'bg-orange-700' : 'bg-orange-500'} group hover:bg-orange-700 inline-block m-0 basis-full sm:basis-1/2 hover:cursor-pointer ${disabled ? 'pointer-events-none' : null}`}
-            onClick={onClick}>
+            clipPath: `polygon(0 50%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 0, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 0, 100% 50%, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 100%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 100%)`
+        }} className="bg-orange-500 inline-block m-0 w-full mb-4 mt-0"
+        >
 
-            <button ref={buttonRef} className={`relative top-0 inline-block ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 text-white font-bold p-4 w-full h-full text-left`}>
+            <div ref={containerRef} className="relative top-0 inline-block bg-slate-900 text-white font-bold p-4 w-full text-center">
 
                 <div style={{
                     clipPath: 'polygon(0 50%, 50% 0, 100% 0, 100% 100%, calc(50% + 0.05px) calc(100% + 0.5px))',
                     width: `${2 * triangleWidth}rem`,
                     left: `-${triangleWidth}rem`
-                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full top-0 -z-10 `}></div>
+                }} className="inline-block absolute bg-slate-900 h-full top-0 -z-10 "></div>
 
                 {children}
 
@@ -60,10 +57,10 @@ export function Button({ children, onClick, disabled = false, selected = false }
                     clipPath: 'polygon(0 0, calc(50% + 0.09px) 0, 100% 50%, calc(50% + 0.05px) calc(100% + 1px), 0 calc(100% + 1px)',
                     width: `${2 * triangleWidth}rem`,
                     right: `-${triangleWidth}rem`
-                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full  top-0  -z-10 `}></div>
+                }} className="inline-block absolute bg-slate-900 h-full  top-0  -z-10 "></div>
 
 
-            </button>
+            </div>
         </div>
     )
 

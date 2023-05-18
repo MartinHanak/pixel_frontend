@@ -3,7 +3,7 @@ import { RootState } from "../store/store";
 import fetchWithCredentials from "../utils/fetchWithCredentials";
 import { BACKEND_URL } from "../utils/config";
 
-type answerType = "A" | "B" | "C" | "D";
+export type answerType = "A" | "B" | "C" | "D";
 
 export const help5050 = createAsyncThunk<{options: answerType[] },undefined ,{state: RootState}>('game/help5050', async (arg, thunkAPI) => {
 

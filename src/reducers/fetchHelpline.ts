@@ -29,6 +29,8 @@ export const fetchHelpline = createAsyncThunk<message,HelplineDispatchArg,{state
 
     if(arg.playerMessage && arg.playerMessage !== '') {
         requestBody = {...requestBody, playerMessage: arg.playerMessage}
+    } else {
+         requestBody = {...requestBody, playerMessage: ''}
     }
 
     try {

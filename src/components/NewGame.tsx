@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { resetGameState } from "../reducers/gameSlice";
 import { Loading } from "./Loading";
 import { Button } from "./Button";
+import { QuestionContainer } from "./QuestionContainer";
 
 export function NewGame() {
 
@@ -56,6 +57,8 @@ export function NewGame() {
                         <p>another line</p>
                         <p>another</p>
                     </Button>
+
+                    <QuestionContainer> Hello</QuestionContainer>
 
                     <Modal showModal={showModal} onCloseModal={() => setShowModal((previousValue) => !previousValue)}>
                         <div>Hello world</div>
