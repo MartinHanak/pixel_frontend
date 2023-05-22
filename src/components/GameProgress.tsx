@@ -38,36 +38,36 @@ export function GameProgress({ currentQuestion, numberOfQuestions = 15, handleAu
 
     return (
         <div className="w-1/2 ml-auto mb-8 mt-8 mr-8">
-            <div className="flex items-center justify-end flex-nowrap gap-4 mr-8">
+            <div className="ml-auto flex items-center justify-end flex-nowrap gap-4 pr-8 pb-2 border-solid border-b-2 border-gray-500 max-w-sm">
 
                 {question || (questionOrder && questionOrder > 1) ?
-                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-8 w-10 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${usedAudience ? 'pointer-events-none opacity-0' : null}`} onClick={handleAudience}>
-                        <img className="w-8 h-4" src={audience} alt="audience" />
+                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-10 w-12 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${usedAudience ? 'pointer-events-none opacity-0' : null}`} onClick={handleAudience}>
+                        <img className="w-10 h-6" src={audience} alt="audience" />
                     </button>
                     : <Placeholder />}
 
                 {question || (questionOrder && questionOrder > 1) ?
-                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-8 w-10 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${used5050 ? 'pointer-events-none opacity-0' : null}`} onClick={handle5050}>
-                        <img className="w-8 h-4" src={icon5050} alt="50:50" />
+                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-10 w-12 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${used5050 ? 'pointer-events-none opacity-0' : null}`} onClick={handle5050}>
+                        <img className="w-10 h-6" src={icon5050} alt="50:50" />
                     </button>
                     : <Placeholder />}
 
                 {question || (questionOrder && questionOrder > 1) ?
-                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-8 w-10 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${usedHelpline ? 'pointer-events-none opacity-0' : null}`} onClick={handleHelpline}>
-                        <img className="w-8 h-4" src={phone} alt="helpline" />
+                    <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-10 w-12 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${usedHelpline ? 'pointer-events-none opacity-0' : null}`} onClick={handleHelpline}>
+                        <img className="w-10 h-6" src={phone} alt="helpline" />
                     </button>
                     : <Placeholder />}
             </div>
 
-            <div className="relative overflow-scroll p-4 max-h-[10rem] sm:max-h-full">
+            <div className="relative overflow-scroll p-4 max-h-[10rem] sm:max-h-[20rem] md:max-h-[30rem] lg:max-h-full">
                 {values.slice(0).reverse().map((value: number, index: number) => {
                     return (<div key={index} className="flex items-end flex-col">
                         <div ref={15 - index === currentQuestion ? currentDiv : null}
-                            className={`${index % 5 === 0 ? `border-solid border-t-2 border-gray-700 w-1/3 ` : null}
+                            className={`${index % 5 === 0 ? `border-solid border-t-2 border-gray-700 w-1/3 max-w-[12rem]` : null}
                         ${15 - index < currentQuestion && `text-gray-900`} 
                         ${15 - index > currentQuestion && `text-gray-200`} 
                         ${15 - index === currentQuestion && `text-yellow-500`} 
-                         text-end font-bold w-full`}> {value} €</div>
+                         text-end font-bold w-full`}> {new Intl.NumberFormat().format(value)} €</div>
                     </div>)
                 })}
             </div>

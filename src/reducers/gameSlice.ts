@@ -31,6 +31,7 @@ export interface gameState {
     numberOfQuestions: number | null,
     questionOrder : number | null,
     currentQuestion: question | null,
+    correctAnswer: answerType | null,
     error: SerializedError | null,
     status: string | null,
     gameover: boolean,
@@ -48,6 +49,7 @@ const initialState : gameState  = {
     questionOrder: null,
     numberOfQuestions: null,
     currentQuestion: null,
+    correctAnswer: null,
     status: 'idle',
     error: null,
     gameover: false,
@@ -93,6 +95,9 @@ export const gameSlice = createSlice({
         },
         resetAudience: (state) => {
             state.audienceVotes = null
+        },
+        resetCorrectAnswer: (state) => {
+            state.correctAnswer = null
         }
     },
     extraReducers:  (builder) => {
@@ -149,6 +154,7 @@ export const gameSlice = createSlice({
 
             .addCase(answerQuestion.fulfilled, (state, action) => {
                 console.log(action.payload)
+                state.correctAnswer = action.payload.correctAnswer;
                 if(action.payload.correctlyAnswered) {
                     // increased by a separate action
                     //state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
@@ -231,7 +237,7 @@ async (arg, thunkAPI) => {
 // Server sent events version
 
 
-export const { changeGame, resetGameState, addHelplineMessage, resetHelplineMessages, reset5050, resetAudience, increaseQuestionOrder } = gameSlice.actions;
+export const { changeGame, resetGameState, addHelplineMessage, resetHelplineMessages, reset5050, resetAudience, increaseQuestionOrder, resetCorrectAnswer } = gameSlice.actions;
 
 export const selectGame = (state: RootState) => state.game; 
 

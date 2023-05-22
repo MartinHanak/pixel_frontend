@@ -18,16 +18,23 @@ export function GameNotification() {
     const gameover = useAppSelector((state: RootState) => state.game.gameover);
     const win = useAppSelector((state: RootState) => state.game.win);
 
+    const question = useAppSelector((state: RootState) => state.game.currentQuestion)
+
     const [showModal, setShowModal] = useState(false);
     const [type, setType] = useState<NotificationTypes | null>(null);
 
     const [displayText, setDisplayText] = useState('');
 
     const handleCloseModal = () => {
-        // reset game state
-        dispatch(resetGameState())
-        // redirect
-        navigate('/')
+        // hard reset if question failed to generate
+        if (question === null || gameover) {
+            // reset game state
+            dispatch(resetGameState())
+            // redirect
+            navigate('/')
+        } else {
+            setShowModal(false)
+        }
     }
 
     useEffect(() => {

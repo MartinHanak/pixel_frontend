@@ -5,10 +5,12 @@ interface Button {
     children: React.ReactNode,
     onClick: (...args: any[]) => void,
     disabled?: boolean,
-    selected?: boolean
+    selected?: boolean,
+    correctAnswer?: boolean,
+    wrongAnswer?: boolean
 }
 
-export function Button({ children, onClick, disabled = false, selected = false }: Button) {
+export function Button({ children, onClick, disabled = false, selected = false, correctAnswer = false, wrongAnswer = false }: Button) {
 
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -43,16 +45,17 @@ export function Button({ children, onClick, disabled = false, selected = false }
             paddingRight: `calc(${triangleWidth}rem + ${middleOffset}px)`,
             clipPath: `polygon(0 50%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 0, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 0, 100% 50%, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 100%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 100%)`,
             opacity: disabled ? '0' : '1'
-        }} className={`${selected ? 'bg-orange-700' : 'bg-orange-500'} group hover:bg-orange-700 inline-block m-0 basis-full sm:basis-1/2 hover:cursor-pointer ${disabled ? 'pointer-events-none' : null}`}
+        }} className={`${selected ? 'bg-orange-700' : 'bg-orange-500'} group hover:bg-orange-700 inline-block m-0 basis-full sm:basis-1/2 hover:cursor-pointer ${disabled ? 'pointer-events-none' : null}
+        ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}
             onClick={onClick}>
 
-            <button ref={buttonRef} className={`relative top-0 inline-block ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 text-white font-bold p-4 w-full h-full text-left`}>
+            <button ref={buttonRef} className={`relative top-0 inline-block ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 text-white font-bold p-4 w-full h-full text-left ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}>
 
                 <div style={{
                     clipPath: 'polygon(0 50%, 50% 0, 100% 0, 100% 100%, calc(50% + 0.05px) calc(100% + 0.5px))',
                     width: `${2 * triangleWidth}rem`,
                     left: `-${triangleWidth}rem`
-                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full top-0 -z-10 `}></div>
+                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full top-0 -z-10 ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}></div>
 
                 {children}
 
@@ -60,7 +63,7 @@ export function Button({ children, onClick, disabled = false, selected = false }
                     clipPath: 'polygon(0 0, calc(50% + 0.09px) 0, 100% 50%, calc(50% + 0.05px) calc(100% + 1px), 0 calc(100% + 1px)',
                     width: `${2 * triangleWidth}rem`,
                     right: `-${triangleWidth}rem`
-                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full  top-0  -z-10 `}></div>
+                }} className={`inline-block absolute ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 h-full  top-0  -z-10 ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}></div>
 
 
             </button>
