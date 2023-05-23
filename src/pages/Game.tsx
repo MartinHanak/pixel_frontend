@@ -131,11 +131,11 @@ export default function Game() {
 
             {showHelpline && <Helpline close={() => { setShowHelpline(false) }} />}
 
-            {question?.intro && showIntro && <Intro show={showIntro} close={() => { setShowIntro(false) }} text={question.intro}></Intro>}
+            {question?.intro && <Intro show={showIntro} close={() => { setShowIntro(false) }} text={question.intro}></Intro>}
 
             <QuestionContainer>{question ? question.question : <Placeholder />}</QuestionContainer>
 
-            <div className="flex flex-wrap justify-between align-center" >
+            <div className="flex gap-2 mb-4 flex-wrap justify-between align-center" >
 
 
                 <Button onClick={() => { setSelectedOption('A') }}

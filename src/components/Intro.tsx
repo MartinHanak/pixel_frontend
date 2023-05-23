@@ -22,10 +22,11 @@ export function Intro({ text, close, show }: Intro) {
 
 
     return (
-        <div className='absolute top-0 left-0 h-full w-full'>
-            <div className='flex flex-col justify-center items-end h-full w-full'>
+        <div className={`absolute top-0 left-0 h-full w-full ${show ? null : 'pointer-events-none'} overflow-hidden`}>
+            <div className='flex gap-8 flex-col justify-end items-end h-full w-full'>
                 <div
-                    className={`z-[999] relative text-xl bg-white block min-w-[12rem] w-full border-[5px] border-orange-500 p-6 rounded-[3rem] font-bold  ${show ? 'animate-fall-down' : null}`}>
+                    onClick={close}
+                    className={`z-[999] relative text-xl bg-white block min-w-[12rem] max-w-[50rem] w-full border-[5px] border-orange-500 p-6 rounded-[3rem] font-bold  ${show ? 'animate-fall-down' : 'animate-hide-up'}`}>
 
                     <div style={{
                         width: '0px',
@@ -45,12 +46,13 @@ export function Intro({ text, close, show }: Intro) {
                         {displayedText}
                     </div>
 
-                    <button className='bg-orange-300 hover:bg-orange-600 rounded-md px-4 py-2 ml-auto block mr-[5rem]' onClick={close}>Got it!</button>
+                    <button className='bg-orange-300 hover:bg-orange-600 rounded-md px-4 py-2 ml-auto mt-4 block mr-[5rem]' onClick={close}>Got it!</button>
 
                 </div>
 
                 <div style={{ backgroundImage: `url(${Host})` }}
-                    className={`bg-cover flex-shrink-0 w-[24rem] h-[24rem] z-[999] ${show ? 'animate-go-up' : null}`}>
+                    onClick={close}
+                    className={`bg-cover flex-shrink w-full h-full  max-w-[24rem] max-h-[24rem] z-[999] ${show ? 'animate-go-up' : 'animate-go-right'}`}>
                 </div>
             </div >
         </div>

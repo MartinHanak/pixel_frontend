@@ -37,8 +37,14 @@ export function GameProgress({ currentQuestion, numberOfQuestions = 15, handleAu
 
 
     return (
-        <div className="w-1/2 ml-auto mb-8 mt-8 mr-8">
-            <div className="ml-auto flex items-center justify-end flex-nowrap gap-4 pr-8 pb-2 border-solid border-b-2 border-gray-500 max-w-sm">
+        <div style={{
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+            backgroundSize: 'cover',
+            backgroundImage: `linear-gradient(225deg, black 0%, rgba(0,0,0,0.7) 50%, transparent 60%, transparent 100%)`
+        }}
+            className="w-1/2 max-w-sm ml-auto mb-8 mr-0 pr-0 ">
+            <div className="ml-auto flex items-center justify-end flex-nowrap gap-4 pr-16 pt-4 pb-2 border-solid border-b-2 border-black-500 max-w-sm ">
 
                 {question || (questionOrder && questionOrder > 1) ?
                     <button className={`bg-slate-800 border-solid border-[3px] border-orange-500 rounded-full p-1 h-10 w-12 flex justify-center items-center hover:bg-slate-700 hover:border-orange-800 ${usedAudience ? 'pointer-events-none opacity-0' : null}`} onClick={handleAudience}>
@@ -59,7 +65,7 @@ export function GameProgress({ currentQuestion, numberOfQuestions = 15, handleAu
                     : <Placeholder />}
             </div>
 
-            <div className="relative overflow-scroll p-4 max-h-[10rem] sm:max-h-[20rem] md:max-h-[30rem] lg:max-h-full">
+            <div className="relative overflow-scroll p-4 pr-16 max-h-[10rem] sm:max-h-[10rem] md:max-h-[20rem] lg:max-h-[20rem]">
                 {values.slice(0).reverse().map((value: number, index: number) => {
                     return (<div key={index} className="flex items-end flex-col">
                         <div ref={15 - index === currentQuestion ? currentDiv : null}

@@ -27,7 +27,7 @@ export function GameNotification() {
 
     const handleCloseModal = () => {
         // hard reset if question failed to generate
-        if (question === null || gameover) {
+        if (question === null || gameover || win) {
             // reset game state
             dispatch(resetGameState())
             // redirect

@@ -13,9 +13,14 @@ export function useDelayedText(text : string) {
 
     useEffect(() => {
 
-        setWords(text.split(""));
-        lastWordUsedIndex.current = null;
-        setFinished(false);
+        if(text === '' ) {
+            setDisplayedText('');
+            setFinished(true);
+        } else {
+            setWords(text.split(""));
+            lastWordUsedIndex.current = null;
+            setFinished(false);
+        }
 
     },[text])
 

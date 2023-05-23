@@ -1,13 +1,30 @@
-import { Link } from 'react-router-dom';
-import { useAppSelector } from '../hooks/typedStoreHooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/typedStoreHooks';
 import { RootState } from '../store/store';
+import { useState } from 'react';
+import { logout } from '../reducers/loginSlice';
 
-export default function Navbar() {
+interface Navbar {
+    showLogin: () => void
+}
+
+export default function Navbar({ showLogin }: Navbar) {
 
     const username = useAppSelector((state: RootState) => state.login.username);
 
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate()
+
+    const [displayLogout, setDisplayLogout] = useState(false);
+
+    const handleLogout = () => {
+        setDisplayLogout(false)
+        dispatch(logout())
+        navigate('/')
+    }
+
     return (
-        <div className="bg-red-500 h-8">
+        <div className="bg-black text-white h-8">
             <div className=' max-w-screen-lg mx-auto w-full flex justify-between items-center h-full px-16'>
                 <nav className=''>
                     <Link to="/">Home</Link>
@@ -16,8 +33,20 @@ export default function Navbar() {
 
                 <div>
                     {username !== '' ?
-                        <div className='block'>Logged in as <span className='font-bold'>{username}</span></div>
-                        : <Link to="login">Login</Link>}
+                        <div className='block relative'>Logged in as&nbsp;
+                            <span onClick={() => setDisplayLogout((prev) => !prev)}
+                                className='font-bold cursor-pointer underline'>
+                                {username}
+                            </span>
+                            <div
+                                onClick={handleLogout}
+                                className={`bg-white rounded-lg text-black underline px-4 py-2 absolute bottom-[-3.5rem] right-0 cursor-pointer
+                            after:content-[''] after:block after:absolute after:right-4 after:-top-4 after:w-4 after:h-4 after:border-solid after:border-b-[1rem] after:border-x-[1rem] after:border-x-transparent after:border-y-white
+                            ${displayLogout ? null : 'opacity-0 cursor-events-none'}`}>
+                                Logout
+                            </div>
+                        </div>
+                        : <span onClick={showLogin} className='cursor-pointer'>Login</span>}
                 </div>
 
             </div>

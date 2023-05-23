@@ -92,7 +92,7 @@ export function Helpline({ close }: Helpline) {
 
 
     return (
-        <div ref={container} className="bg-white absolute z-[1000] max-h-[48rem]  h-[75vh]  max-w-xl w-full sm:w-1/2 p-4 border-solid border-[5px] border-y-gray-800 border-x-gray-900 overflow-hidden top-0 left-0">
+        <div ref={container} className="bg-white absolute z-[1000] max-h-[48rem] h-[90vh]  md:h-[75vh]  sm:max-w-xl w-full md:w-1/2 p-4 border-solid border-[5px] border-y-gray-800 border-x-gray-900 overflow-hidden top-0 left-0">
 
             <div className="grid grid-cols-2 grid-rows-1 justify-items-end items-start border-solid border-gray-300 border-b-2">
                 <div className="justify-self-start">

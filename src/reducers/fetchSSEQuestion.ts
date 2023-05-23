@@ -62,6 +62,7 @@ export const fetchSSEQuestion = createAsyncThunk<question | null, {gameId: numbe
         
     } catch(err) {
         console.log(err)
+        throw new Error('Failed to generate question. Try using a less specific theme.')
     }
 
     return nextQuestion

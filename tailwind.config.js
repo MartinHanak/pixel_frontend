@@ -5,12 +5,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xsm': '580px'
+      },
       animation: {
         'delay-bounce': 'delayBounce 3s linear infinite',
         'win': 'greenBlinking 3s linear 1 forwards',
         'wrong': 'redBlinking 3s linear 1 forwards',
         'fall-down': 'fallDown 0.5s ease-in-out 1 ',
-        'go-up': 'goUp 0.5s ease-in-out 1 '
+        'go-up': 'goUp 0.5s ease-in-out 1 ',
+        'go-left': 'goLeft 0.5s ease-in-out 1 forwards',
+        'go-right': 'goRight 0.5s ease-in-out 1 forwards',
+        'hide-up': 'hideUp 0.5s ease-in-out 1 forwards'
       },
       keyframes: {
         fallDown: {
@@ -31,6 +37,33 @@ module.exports = {
           '100%': {
             transform: 'translateY(0)',
             opacity: 1
+          }
+        },
+        hideUp: {
+          '0%': {
+            transform: 'translateY(0)',
+            opacity: 1
+          },
+          '100%': {
+            transform: 'translateY(-100vh)',
+            opacity: 0,
+
+          }
+        },
+        goRight: {
+          '0%': {
+            transform: 'translateX(0)',
+            opacity: 1
+          },'100%': {
+            transform: 'translateX(100vw)',
+            opacity: 0
+          }
+        },
+        goLeft: {
+          '0%': {
+            transform: 'translateX(0)'
+          },'100%': {
+            transform: 'translateX(-100vw)'
           }
         },
         delayBounce: {

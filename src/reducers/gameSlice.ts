@@ -157,7 +157,9 @@ export const gameSlice = createSlice({
                 state.correctAnswer = action.payload.correctAnswer;
                 if(action.payload.correctlyAnswered) {
                     // increased by a separate action
-                    //state.questionOrder ? state.questionOrder += 1 : state.questionOrder = 2;
+                    if(state.questionOrder === 15) {
+                        state.win = true;
+                    }
                 } else {
                     state.gameover = true;
                 }

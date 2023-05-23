@@ -7,11 +7,16 @@ import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks";
 import { createGame } from "../reducers/createGame";
 import { useNavigate } from "react-router-dom";
 import { resetGameState } from "../reducers/gameSlice";
+import { StartButton } from "./StartButton";
 import { Loading } from "./Loading";
 import { Button } from "./Button";
 import { QuestionContainer } from "./QuestionContainer";
 
-export function NewGame() {
+interface NewGame {
+    showLogin: () => void
+}
+
+export function NewGame({ showLogin }: NewGame) {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
@@ -35,36 +40,33 @@ export function NewGame() {
                     navigate("/game");
                 })
         } else {
-            setShowModal(true)
+            showLogin()
         }
     }
 
     return (
-        <div>
-            {status === 'pending' ? <Loading /> :
-                <>
-                    <h2>New game</h2>
-                    <div>
-                        <label htmlFor="theme">Theme (optional)</label>
-                        <TextInput name="theme" id="theme" type="text" onChange={(e) => setTheme(e.target.value)} value={theme} />
+        <div className="flex flex-col justify-start gap-0 items-stretch p-0">
+
+            <div className="bg-black bg-opacity-40 p-4 rounded-t-lg">
+                <h1 className="font-bold text-white  text-4xl md:text-5xl lg:text-6xl italic">
+                    <span>Who Wants to Be a</span>
+                    <span className="text-yellow-500">&nbsp;Millionaire</span>
+                </h1>
+
+                <h2 className="text-white text-lg italic mt-4">
+                    AI generated quesitions
+                </h2>
+            </div>
+
+            <div className="p-4 bg-black bg-opacity-50 rounded-b-lg">
+                <div className="bg-white w-3/3 md:w-2/3 px-8 py-4 ml-8 rounded-lg">
+                    <div className="flex flex-col gap-0 items-start justify-between">
+                        <label className="text-gray-500" htmlFor="theme">Theme (Optional)</label>
+                        <input className="bg-gray-300 font-bold px-2 w-2/3 mb-4 rounded-lg border-b-2 border-solid border-black" type="text" name="theme" id="theme" value={theme} onChange={(e) => setTheme(e.target.value)} />
+                        <StartButton onClick={handleStartingNewGame}>START GAME</StartButton>
                     </div>
-                    <Button onClick={handleStartingNewGame}>Start new game</Button>
-
-                    <button onClick={() => setShowModal((previousValue) => !previousValue)}>Show Modal</button>
-
-                    <Button onClick={() => { console.log("click") }}>
-                        <p>Testing</p>
-                        <p>another line</p>
-                        <p>another</p>
-                    </Button>
-
-                    <QuestionContainer> Hello</QuestionContainer>
-
-                    <Modal showModal={showModal} onCloseModal={() => setShowModal((previousValue) => !previousValue)}>
-                        <div>Hello world</div>
-                    </Modal>
-                </>
-            }
+                </div>
+            </div>
         </div>
     )
 }
