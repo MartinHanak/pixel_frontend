@@ -5,15 +5,23 @@ import { useState } from 'react';
 import Navbar from './components/Navbar';
 import LoginForm from './pages/LoginForm';
 import Game from './pages/Game';
-import GamesList from './pages/GamesList';
 import Home from './pages/Home';
 
 import backgroundImage from '../src/assets/images/background.jpg'
 import { Modal } from './components/Modal';
+import { useAppDispatch, useAppSelector } from './hooks/typedStoreHooks';
+import { resetErrors } from './reducers/loginSlice';
 
 function App() {
 
   const [showLogin, setShowLogin] = useState(false)
+
+  const dispatch = useAppDispatch()
+
+  const handleLoginClose = () => {
+    dispatch(resetErrors())
+    setShowLogin(false)
+  }
 
   return (
     <div className='h-full min-h-screen w-full bg-no-repeat bg-cover' >
@@ -37,7 +45,7 @@ function App() {
         </div>
       </main>
 
-      {showLogin && <Modal showModal={showLogin} onCloseModal={() => setShowLogin(false)}><LoginForm /></Modal>}
+      {showLogin && <Modal showModal={showLogin} onCloseModal={handleLoginClose}><LoginForm close={handleLoginClose} /></Modal>}
 
       <footer className='flex align-middle justify-center text-white bg-black'>
         Made by <span className='font-bold ml-2'> Martin Hanák</span>

@@ -8,6 +8,9 @@ module.exports = {
       screens: {
         'xsm': '580px'
       },
+      gridTemplateColumns: {
+        'form': 'minmax(max-content,1fr) 2fr'
+      },
       animation: {
         'delay-bounce': 'delayBounce 3s linear infinite',
         'win': 'greenBlinking 3s linear 1 forwards',
