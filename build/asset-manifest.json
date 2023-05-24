@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c5f29e06.css",
+    "main.js": "/static/js/main.2c11e551.js",
+    "static/media/host_cropped.png": "/static/media/host_cropped.8cede3e2462189eaa280.png",
+    "static/media/background.jpg": "/static/media/background.9af7018c5d55d6c068fc.jpg",
+    "static/media/Gollum.png": "/static/media/Gollum.ccccd8dab878ea681075.png",
+    "static/media/Yoda.png": "/static/media/Yoda.e07b2f4261f487c57678.png",
+    "static/media/Pikachu.png": "/static/media/Pikachu.74870e37dca57636838e.png",
+    "static/media/Trump.jpg": "/static/media/Trump.c42dadd5da6471320fe0.jpg",
+    "static/media/5050.svg": "/static/media/5050.cccd95a1d8ae3e6dc9a4ea8c8c4515f1.svg",
+    "static/media/phone.svg": "/static/media/phone.27e27b90e23af8e5b581a8af5cc202e7.svg",
+    "static/media/audience.svg": "/static/media/audience.5b5ace12ab149d27d926669eef12b672.svg",
+    "static/media/close.svg": "/static/media/close.2dfa682a561f0238f13f5cce3ba96b78.svg",
+    "static/media/back.svg": "/static/media/back.bd83f8533d52bcda7ca54dcd29bf944f.svg",
+    "static/media/user_3.svg": "/static/media/user_3.89df1a894c76c6d0d1781bdeb296f8b2.svg",
+    "static/media/minimize.svg": "/static/media/minimize.78dc429538e91153244323135a3ef2aa.svg",
+    "index.html": "/index.html",
+    "main.c5f29e06.css.map": "/static/css/main.c5f29e06.css.map",
+    "main.2c11e551.js.map": "/static/js/main.2c11e551.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c5f29e06.css",
+    "static/js/main.2c11e551.js"
+  ]
+}

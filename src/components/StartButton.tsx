@@ -1,5 +1,8 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import { convertRemToPixels } from "../utils/convert";
+import { Placeholder } from "./Placeholder";
+import { useAppSelector } from "../hooks/typedStoreHooks";
+import { RootState } from "../store/store";
 
 interface StartButton {
     children: React.ReactNode,
@@ -9,6 +12,8 @@ interface StartButton {
 export function StartButton({ children, onClick }: StartButton) {
 
     const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+    const status = useAppSelector((state: RootState) => state.game.status);
 
     const [buttonHeight, setButtonHeight] = useState(0); // in px
     const [triangleWidth, setTriangleWidth] = useState(1) // in rems
@@ -51,7 +56,7 @@ export function StartButton({ children, onClick }: StartButton) {
                     left: `-${triangleWidth}rem`
                 }} className={`inline-block absolute bg-green-800 group-hover:bg-green-500 h-full top-0 -z-10 `}></div>
 
-                {children}
+                {status === 'idle' ? children : <Placeholder />}
 
                 <div style={{
                     clipPath: 'polygon(0 0, calc(50% + 0.09px) 0, 100% 50%, calc(50% + 0.05px) calc(100% + 1px), 0 calc(100% + 1px)',

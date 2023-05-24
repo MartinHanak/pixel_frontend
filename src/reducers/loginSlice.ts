@@ -9,12 +9,14 @@ interface loginState {
     username: string,
     jwt: string,
     error: SerializedError | null,
+    status: string
 }
 
 const initialLoginState: loginState = {
     username: localStorage.getItem("username") || '',
     jwt: localStorage.getItem("jwt") || '',
-    error: null
+    error: null,
+    status: 'idle'
 }
 
 
@@ -34,20 +36,30 @@ export const loginSlice = createSlice({
     }, extraReducers: (builder) =>  {
         builder 
         .addCase(login.fulfilled, (state, action) => {
+            state.status = 'idle';
             state.username = action.payload.username;
             state.jwt = action.payload.jwt;
             state.error = null
         })
         .addCase(login.rejected, (state, action) => {
+             state.status = 'idle';
             state.error = action.error;
         })
+        .addCase(login.pending, (state,action) => {
+            state.status = 'pending'
+        })
         .addCase(register.fulfilled, (state, action ) => {
+             state.status = 'idle';
             state.username = action.payload.username;
             state.jwt = action.payload.jwt;
             state.error = null
         })
         .addCase(register.rejected, (state, action) => {
+             state.status = 'idle';
             state.error = action.error;
+        })
+        .addCase(register.pending, (state, action) => {
+            state.status = 'pending';
         })
     }
 })

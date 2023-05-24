@@ -2,10 +2,12 @@ import React, { ChangeEvent, useEffect } from "react"
 import { useState } from "react";
 import TextInput from "../components/TextInput";
 import closeIcon from '../assets/images/close.svg'
+import { Placeholder } from "../components/Placeholder";
 
 import { login } from "../reducers/login";
 import { register } from "../reducers/register";
 import { useAppDispatch, useAppSelector } from "../hooks/typedStoreHooks";
+import { RootState } from "../store/store";
 
 interface LoginForm {
     close: () => void
@@ -21,7 +23,8 @@ export default function LoginForm({ close }: LoginForm) {
     const [showLogin, setShowLogin] = useState(true);
 
     const [displayedErrors, setDisplayedErrors] = useState<string[]>([])
-    const error = useAppSelector((state) => state.login.error)
+    const error = useAppSelector((state: RootState) => state.login.error)
+    const status = useAppSelector((state: RootState) => state.login.status)
 
     const dispatch = useAppDispatch()
 
@@ -124,7 +127,10 @@ export default function LoginForm({ close }: LoginForm) {
 
 
                 <button onClick={onSubmit} className=" text-white font-bold hover:bg-gray-600 bg-black block px-4 py-2 rounded-lg ml-auto mr-auto mt-8 mb-4">
-                    {showLogin ? 'Log In' : 'Register'}
+                    {status !== 'idle' ? <Placeholder />
+                        :
+                        showLogin ? 'Log In' : 'Register'}
+
                 </button>
 
             </form>

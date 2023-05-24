@@ -46,14 +46,15 @@ export function GameNotification() {
             setDisplayText("Game Over");
         } else if (error) {
             setShowModal(true)
-            setDisplayText(error.message ? error.message : "Error occurred while generating the next question. Try generating a game with a less specific theme.");
+            setDisplayText(error.message ? error.message : `Error occurred while generating the next question.
+            Try generating a game with a less specific theme.`);
         }
 
     }, [error, gameover, win])
 
     return (
-        <Modal showModal={showModal} onCloseModal={handleCloseModal} hideButtonText="Back to main page" >
-            <div className={`w-3/3 p-4 m-8 border-solid border-4 text-white font-bold text-center
+        <Modal showModal={showModal} onCloseModal={handleCloseModal} showCloseButton={true} >
+            <div className={`w-3/3 p-4 m-8 border-solid border-4 text-white font-bold text-center whitespace-pre-wrap
             ${win ? 'bg-green-500 border-green-700 uppercase' : null}
             ${gameover ? 'bg-red-500 border-red-800 uppercase' : null}
             ${error ? 'bg-red-500 border-red-800' : null}

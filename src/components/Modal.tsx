@@ -5,10 +5,10 @@ interface Modal {
     children: React.ReactNode,
     showModal: boolean,
     onCloseModal: () => void,
-    hideButtonText?: string
+    showCloseButton?: boolean
 }
 
-export function Modal({ children, showModal, onCloseModal, hideButtonText }: Modal) {
+export function Modal({ children, showModal, onCloseModal, showCloseButton }: Modal) {
 
 
     return (
@@ -22,11 +22,11 @@ export function Modal({ children, showModal, onCloseModal, hideButtonText }: Mod
                         onClick={(e) => e.stopPropagation()}>
 
 
-                        <button
+                        {showCloseButton && <button
                             className="ml-auto block"
                             onClick={onCloseModal}>
                             <img className=" w-8 h-8" src={close} alt="close" />
-                        </button>
+                        </button>}
 
 
                         {children}
