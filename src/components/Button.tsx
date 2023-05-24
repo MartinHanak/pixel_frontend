@@ -7,10 +7,11 @@ interface Button {
     disabled?: boolean,
     selected?: boolean,
     correctAnswer?: boolean,
-    wrongAnswer?: boolean
+    wrongAnswer?: boolean,
+    className?: string
 }
 
-export function Button({ children, onClick, disabled = false, selected = false, correctAnswer = false, wrongAnswer = false }: Button) {
+export function Button({ children, onClick, disabled = false, selected = false, correctAnswer = false, wrongAnswer = false, className }: Button) {
 
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
@@ -46,7 +47,7 @@ export function Button({ children, onClick, disabled = false, selected = false, 
             clipPath: `polygon(0 50%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 0, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 0, 100% 50%, calc(100% - ${triangleWidth}rem + ${topOffset}px - ${middleOffset}px) 100%, calc(${triangleWidth}rem - ${topOffset}px + ${middleOffset}px) 100%)`,
             opacity: disabled ? '0' : '1'
         }} className={`${selected ? 'bg-orange-700' : 'bg-orange-500'} group hover:bg-orange-700 inline-block m-0  flex-shrink flex-grow sm:basis-1/3 basis-2/3 hover:cursor-pointer ${disabled ? 'pointer-events-none' : null}
-        ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}
+        ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null} ${className ? className : null}`}
             onClick={onClick}>
 
             <button ref={buttonRef} className={`relative top-0 inline-block ${selected ? 'bg-slate-800' : 'bg-slate-900'} group-hover:bg-slate-800 text-white font-bold p-4 w-full h-full text-left ${correctAnswer ? 'animate-win' : null} ${wrongAnswer ? 'animate-wrong' : null}`}>

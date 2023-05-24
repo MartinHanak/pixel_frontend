@@ -153,6 +153,7 @@ export const gameSlice = createSlice({
             })
 
             .addCase(answerQuestion.fulfilled, (state, action) => {
+                state.status = 'idle';
                 console.log(action.payload)
                 state.correctAnswer = action.payload.correctAnswer;
                 if(action.payload.correctlyAnswered) {
@@ -164,10 +165,13 @@ export const gameSlice = createSlice({
                     state.gameover = true;
                 }
             })
-
             .addCase(answerQuestion.rejected, (state, action) => {
+                state.status = 'idle';
                 console.log(action.error)
                 state.error = action.error
+            })
+            .addCase(answerQuestion.pending, (state, action) => {
+                state.status = 'pending';
             })
 
             .addCase(help5050.rejected, (state, action) =>{

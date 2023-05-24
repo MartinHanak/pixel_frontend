@@ -25,6 +25,7 @@ export default function Game() {
     const dispatch = useAppDispatch();
 
     const gameId = useAppSelector((state: RootState) => state.game.gameId);
+    const status = useAppSelector((state: RootState) => state.game.status)
     const questionOrder = useAppSelector((state: RootState) => state.game.questionOrder);
     const question = useAppSelector((state: RootState) => state.game.currentQuestion);
     const error = useAppSelector((state: RootState) => state.game.error);
@@ -178,7 +179,11 @@ export default function Game() {
 
             </div >
 
-            <Button onClick={handleAnswer}>Answer</Button>
+            <Button className={correctAnswer !== null ? 'hidden' : undefined}
+                disabled={status !== 'idle' ? true : false}
+                onClick={handleAnswer}>
+                Answer
+            </Button>
 
             {showNext && <Button onClick={handleNextQuestion}>Next Question</Button>}
 

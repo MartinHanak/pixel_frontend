@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect } from "react"
 import { useState } from "react";
 import TextInput from "../components/TextInput";
+import closeIcon from '../assets/images/close.svg'
 
 import { login } from "../reducers/login";
 import { register } from "../reducers/register";
@@ -65,10 +66,15 @@ export default function LoginForm({ close }: LoginForm) {
 
     return (
         <>
-            <div className="w-full flex items-center justify-center gap-4 border-b-2 border-solid border-gray-300 pb-2 mb-2">
-                <span onClick={() => { setShowLogin(true) }} className={`${showLogin ? 'underline' : null} cursor-pointer`}>Login</span>
-                |
-                <span onClick={() => { setShowLogin(false) }} className={`${showLogin ? null : 'underline'} cursor-pointer`}>Register</span>
+            <div className="w-full flex items-center justify-center border-b-2 border-solid border-gray-300 pb-2 mb-2">
+                <div className="w-full flex items-center justify-center gap-4 ">
+                    <span onClick={() => { setShowLogin(true) }} className={`${showLogin ? 'underline' : null} cursor-pointer`}>Login</span>
+                    |
+                    <span onClick={() => { setShowLogin(false) }} className={`${showLogin ? null : 'underline'} cursor-pointer`}>Register</span>
+                </div>
+                <button className="flex items-center justify-center" onClick={close}>
+                    <img className="w-8 h-8" src={closeIcon} alt="close" />
+                </button>
             </div>
 
             <form onSubmit={onSubmit}>
@@ -117,7 +123,7 @@ export default function LoginForm({ close }: LoginForm) {
                 </div>
 
 
-                <button onClick={onSubmit}>
+                <button onClick={onSubmit} className=" text-white font-bold hover:bg-gray-600 bg-black block px-4 py-2 rounded-lg ml-auto mr-auto mt-8 mb-4">
                     {showLogin ? 'Log In' : 'Register'}
                 </button>
 

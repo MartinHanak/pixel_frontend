@@ -17,6 +17,21 @@ export function QuestionContainer({ children }: QuestionContainer) {
     const [middleOffset, setMiddleOffset] = useState(1) // in px
     const [topOffset, setTopOffset] = useState(1) // in px
 
+    const handleClick = () => {
+
+        const selection = window.getSelection()
+
+        if (containerRef.current !== null && selection !== null) {
+
+            selection.removeAllRanges()
+
+            const range = document.createRange()
+            range.selectNode(containerRef.current)
+            selection.addRange(range)
+
+        }
+    }
+
     useLayoutEffect(() => {
         if (containerRef.current) {
             const { height } = containerRef.current.getBoundingClientRect()
@@ -43,7 +58,7 @@ export function QuestionContainer({ children }: QuestionContainer) {
         }} className="bg-orange-500 inline-block m-0 w-full mb-4 mt-0"
         >
 
-            <div ref={containerRef} className="relative top-0 inline-block bg-slate-900 text-white font-bold p-4 w-full text-center">
+            <div ref={containerRef} onClick={handleClick} className="relative top-0 inline-block bg-slate-900 text-white font-bold p-4 w-full text-center">
 
                 <div style={{
                     clipPath: 'polygon(0 50%, 50% 0, 100% 0, 100% 100%, calc(50% + 0.05px) calc(100% + 0.5px))',

@@ -53,7 +53,13 @@ export function GameNotification() {
 
     return (
         <Modal showModal={showModal} onCloseModal={handleCloseModal} hideButtonText="Back to main page" >
-            <div>{displayText}</div>
+            <div className={`w-3/3 p-4 m-8 border-solid border-4 text-white font-bold text-center
+            ${win ? 'bg-green-500 border-green-700 uppercase' : null}
+            ${gameover ? 'bg-red-500 border-red-800 uppercase' : null}
+            ${error ? 'bg-red-500 border-red-800' : null}
+            `}>
+                {displayText}
+            </div>
         </Modal>
     )
 }
