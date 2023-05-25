@@ -43,7 +43,7 @@ export function GameProgress({ currentQuestion, numberOfQuestions = 15, handleAu
             backgroundSize: 'cover',
             backgroundImage: `linear-gradient(225deg, black 0%, rgba(0,0,0,0.7) 50%, transparent 60%, transparent 100%)`
         }}
-            className="w-1/2 max-w-sm ml-auto mb-8 mr-0 pr-0 ">
+            className="w-3/4 sm:w-1/2 max-w-sm ml-auto mb-8 mr-0 pr-0 ">
             <div className="ml-auto flex items-center justify-end flex-nowrap gap-4 pr-16 pt-4 pb-2 border-solid border-b-2 border-black-500 max-w-sm ">
 
                 {question || (questionOrder && questionOrder > 1) ?

@@ -71,20 +71,20 @@ export default function Home({ showLogin }: Home) {
 
             <div className="col-span-1 md:col-span-2 row-span-1 p-8 min-h-[15rem] flex flex-col justify-end">
                 <div
-                    className={`relative text-xl bg-white block min-w-[24rem] max-w-[50rem]  border-[5px] border-orange-500 p-6 rounded-[3rem] font-bold mb-8 pl-12`}>
+                    className={`relative text-xl bg-white block min-w-[280px] sm:min-w-[24rem] max-w-[50rem]  border-[5px] border-orange-500 p-6 rounded-[3rem] font-bold mb-8 pl-12`}>
 
                     <div style={{
                         width: '0px',
                         height: `${triangleHeight - borderWidth}px`,
                         bottom: `-${triangleHeight - borderWidth}px`,
-                        left: `${convertRemToPixels(12) + borderWidth}px`,
-                    }} className="block absolute z-[5] border-x-[33px] border-t-[33px] border-solid border-x-transparent border-t-white"></div>
+                        left: `${convertRemToPixels(10) + borderWidth}px`,
+                    }} className=" block absolute z-[5] border-x-[33px] border-t-[33px] border-solid border-x-transparent border-t-white"></div>
 
                     <div style={{
                         width: '0px',
                         height: `${triangleHeight}px`,
                         bottom: `-${triangleHeight}px`,
-                        left: `${convertRemToPixels(12)}px`,
+                        left: `${convertRemToPixels(10)}px`,
                     }} className="block absolute z-1 border-x-[38px] border-t-[38px] border-solid border-x-transparent border-t-orange-500"></div>
 
                     <div className='w-full max-h-60 overflow-scroll'>

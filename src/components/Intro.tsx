@@ -32,14 +32,14 @@ export function Intro({ text, close, show }: Intro) {
                         width: '0px',
                         height: `${triangleHeight - borderWidth}px`,
                         bottom: `-${triangleHeight - borderWidth}px`,
-                        right: `${convertRemToPixels(15) + borderWidth}px`,
+                        right: `${convertRemToPixels(12) + borderWidth}px`,
                     }} className="block absolute z-[5] border-x-[33px] border-t-[33px] border-solid border-x-transparent border-t-white"></div>
 
                     <div style={{
                         width: '0px',
                         height: `${triangleHeight}px`,
                         bottom: `-${triangleHeight}px`,
-                        right: `${convertRemToPixels(15)}px`,
+                        right: `${convertRemToPixels(12)}px`,
                     }} className="block absolute z-1 border-x-[38px] border-t-[38px] border-solid border-x-transparent border-t-orange-500"></div>
 
                     <div className=' max-h-60 overflow-scroll'>

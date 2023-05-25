@@ -25,7 +25,7 @@ export default function Navbar({ showLogin }: Navbar) {
 
     return (
         <div className="bg-black text-white h-8">
-            <div className=' max-w-screen-lg mx-auto w-full flex justify-between items-center h-full px-16'>
+            <div className=' max-w-screen-lg mx-auto w-full flex justify-between items-center h-full px-4 sm:px-16'>
                 <nav className=''>
                     <Link to="/">Home</Link>
 
