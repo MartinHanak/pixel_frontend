@@ -48,7 +48,7 @@ function App() {
       {showLogin && <Modal showModal={showLogin} onCloseModal={handleLoginClose}><LoginForm close={handleLoginClose} /></Modal>}
 
       <footer className='flex align-middle justify-center text-white bg-black'>
-        Made by <span className='font-bold ml-2'> Martin Hanák</span>
+        Made by <span className='font-bold ml-2'> <a href="https://www.martinhanak.com/" className='underline underline-offset-4'>Martin Hanák</a></span>
       </footer>
     </div>
   );
