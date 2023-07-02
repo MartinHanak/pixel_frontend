@@ -55,6 +55,7 @@ export default function Game() {
                 .then((res) => {
                     setCorrectAnswer(res.correctAnswer)
 
+
                     if (res.correctlyAnswered) {
                         // modify answer Button to next question Button
                         setShowNext(true)
@@ -142,7 +143,7 @@ export default function Game() {
                 <Button onClick={() => { setSelectedOption('A') }}
                     disabled={disabledOptions?.includes('A')}
                     selected={selectedOption?.includes('A')}
-                    correctAnswer={(correctAnswer !== null && selectedOption === 'A' && selectedOption === correctAnswer)}
+                    correctAnswer={(correctAnswer !== null && correctAnswer === 'A')}
                     wrongAnswer={(correctAnswer !== null && selectedOption === 'A' && selectedOption !== correctAnswer)}>
                     <div className="flex items-center justify-start">
                         <OptionSpan>A.</OptionSpan> {question ? question.options.A : <Placeholder />}
@@ -151,7 +152,7 @@ export default function Game() {
                 <Button onClick={() => { setSelectedOption('B') }}
                     disabled={disabledOptions?.includes('B')}
                     selected={selectedOption?.includes('B')}
-                    correctAnswer={(correctAnswer !== null && selectedOption === 'B' && selectedOption === correctAnswer)}
+                    correctAnswer={(correctAnswer !== null && correctAnswer === 'B')}
                     wrongAnswer={(correctAnswer !== null && selectedOption === 'B' && selectedOption !== correctAnswer)}>
                     <div className="flex items-center justify-start">
                         <OptionSpan>B.</OptionSpan> {question ? question.options.B : <Placeholder />}
@@ -160,7 +161,7 @@ export default function Game() {
                 <Button onClick={() => { setSelectedOption('C') }}
                     disabled={disabledOptions?.includes('C')}
                     selected={selectedOption?.includes('C')}
-                    correctAnswer={(correctAnswer !== null && selectedOption === 'C' && selectedOption === correctAnswer)}
+                    correctAnswer={(correctAnswer !== null && correctAnswer === 'C')}
                     wrongAnswer={(correctAnswer !== null && selectedOption === 'C' && selectedOption !== correctAnswer)}>
                     <div className="flex items-center justify-start">
                         <OptionSpan>C.</OptionSpan> {question ? question.options.C : <Placeholder />}
@@ -169,7 +170,7 @@ export default function Game() {
                 <Button onClick={() => { setSelectedOption('D') }}
                     disabled={disabledOptions?.includes('D')}
                     selected={selectedOption?.includes('D')}
-                    correctAnswer={(correctAnswer !== null && selectedOption === 'D' && selectedOption === correctAnswer)}
+                    correctAnswer={(correctAnswer !== null && correctAnswer === 'D')}
                     wrongAnswer={(correctAnswer !== null && selectedOption === 'D' && selectedOption !== correctAnswer)}>
                     <div className="flex items-center justify-start">
                         <OptionSpan>D.</OptionSpan> {question ? question.options.D : <Placeholder />}
