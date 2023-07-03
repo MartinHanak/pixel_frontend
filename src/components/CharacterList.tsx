@@ -25,7 +25,7 @@ export function CharacterList({ characterList, setSelectedCharacter }: Character
     }
 
     return (
-        <div style={{ maxHeight: 'calc(100% - 4rem)' }} className="overflow-scroll ">
+        <div style={{ maxHeight: 'calc(100% - 4rem)' }} className="overflow-y-auto overflow-x-hidden ">
             {characterList.map((character: character) => {
                 return (
                     <div key={character.name} className="flex pb-8 px-4 mt-4 border-b-2 border-solid border-gray-200" >

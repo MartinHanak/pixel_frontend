@@ -65,7 +65,7 @@ export function GameProgress({ currentQuestion, numberOfQuestions = 15, handleAu
                     : <Placeholder />}
             </div>
 
-            <div className="relative overflow-scroll p-4 pr-16 max-h-[10rem] sm:max-h-[10rem] md:max-h-[20rem] lg:max-h-[20rem]">
+            <div className="relative overflow-y-auto overflow-x-hidden p-4 pr-16 max-h-[10rem] sm:max-h-[10rem] md:max-h-[20rem] lg:max-h-[20rem]">
                 {values.slice(0).reverse().map((value: number, index: number) => {
                     return (<div key={index} className="flex items-end flex-col">
                         <div ref={15 - index === currentQuestion ? currentDiv : null}

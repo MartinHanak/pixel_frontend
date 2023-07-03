@@ -87,7 +87,7 @@ export default function Home({ showLogin }: Home) {
                         left: `${convertRemToPixels(10)}px`,
                     }} className="block absolute z-1 border-x-[38px] border-t-[38px] border-solid border-x-transparent border-t-orange-500"></div>
 
-                    <div className='w-full max-h-60 overflow-scroll'>
+                    <div className='w-full max-h-60 overflow-y-auto overflow-x-hidden'>
                         {displayedText === '' ? <Placeholder dark /> : displayedText}
                     </div>
 

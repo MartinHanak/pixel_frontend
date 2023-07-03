@@ -42,7 +42,7 @@ export function Intro({ text, close, show }: Intro) {
                         right: `${convertRemToPixels(12)}px`,
                     }} className="block absolute z-1 border-x-[38px] border-t-[38px] border-solid border-x-transparent border-t-orange-500"></div>
 
-                    <div className=' max-h-60 overflow-scroll'>
+                    <div className=' max-h-60 overflow-y-auto overflow-x-hidden'>
                         {displayedText}
                     </div>
 

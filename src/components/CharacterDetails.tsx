@@ -70,7 +70,7 @@ export function CharacterDetails({ selectedCharacter, cancelSelection, oldMessag
     return (
         <div className="pt-4 h-full ">
 
-            <div style={{ maxHeight: 'calc(100% - 8rem)' }} className="overflow-scroll h-full">
+            <div style={{ maxHeight: 'calc(100% - 8rem)' }} className="overflow-y-auto overflow-x-hidden h-full">
                 {oldMessages !== null ? <Messages character={selectedCharacter} />
                     : null}
 
