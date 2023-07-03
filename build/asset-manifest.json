@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.5e7e171a.css",
-    "main.js": "/static/js/main.2828d6fc.js",
+    "main.js": "/static/js/main.04ea7c71.js",
     "static/media/host_cropped.png": "/static/media/host_cropped.8cede3e2462189eaa280.png",
     "static/media/background.jpg": "/static/media/background.9af7018c5d55d6c068fc.jpg",
     "static/media/Gollum.png": "/static/media/Gollum.ccccd8dab878ea681075.png",
@@ -17,10 +17,10 @@
     "static/media/minimize.svg": "/static/media/minimize.78dc429538e91153244323135a3ef2aa.svg",
     "index.html": "/index.html",
     "main.5e7e171a.css.map": "/static/css/main.5e7e171a.css.map",
-    "main.2828d6fc.js.map": "/static/js/main.2828d6fc.js.map"
+    "main.04ea7c71.js.map": "/static/js/main.04ea7c71.js.map"
   },
   "entrypoints": [
     "static/css/main.5e7e171a.css",
-    "static/js/main.2828d6fc.js"
+    "static/js/main.04ea7c71.js"
   ]
 }
