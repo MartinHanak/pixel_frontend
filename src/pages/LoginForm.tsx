@@ -28,6 +28,11 @@ export default function LoginForm({ close }: LoginForm) {
 
     const dispatch = useAppDispatch()
 
+    const onSubmitGuest = async (e: React.FormEvent) => {
+        setUsernameInput('demo')
+        setPasswordInput('demo')
+    }
+
 
     const onSubmit = async (e: React.FormEvent) => {
 
@@ -123,15 +128,29 @@ export default function LoginForm({ close }: LoginForm) {
                         />
                     </>}
 
+
+
                 </div>
 
 
-                <button onClick={onSubmit} className=" text-white font-bold hover:bg-gray-600 bg-black block px-4 py-2 rounded-lg ml-auto mr-auto mt-8 mb-4">
-                    {status !== 'idle' ? <Placeholder />
-                        :
-                        showLogin ? 'Log In' : 'Register'}
 
-                </button>
+                <div className=" w-full flex flex-row items-center justify-center gap-x-4">
+
+                    {showLogin && <button onClick={onSubmitGuest} className=" text-white font-bold hover:bg-gray-300 hover:text-black bg-gray-600 block px-4 py-2 rounded-lg mt-8 mb-4">
+                        {'Continue As Guest'}
+                    </button>}
+
+                    <button onClick={onSubmit} className=" text-white font-bold hover:bg-gray-600 bg-black block px-4 py-2 rounded-lg  mt-8 mb-4">
+                        {status !== 'idle' ? <Placeholder />
+                            :
+                            showLogin ? 'Log In' : 'Register'}
+
+                    </button>
+
+
+
+                </div>
+
 
             </form>
         </>
